@@ -20,13 +20,71 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(str, key) {
+      if (str === undefined || key === undefined) {
+          throw new Error("Incorrect arguments!");
+      }
+
+      let ans = '';
+      str = str.toUpperCase();
+      key = key.toUpperCase();
+
+      while (str.length > key.length) {
+          key = key.repeat(2);
+      }
+
+      let index = 0;
+
+      for (let i = 0; i < str.length; i++) {
+          if (this.alphabet.includes(str[i])) {
+              const strChar = this.alphabet.indexOf(str[i]);
+              const keyChar = this.alphabet.indexOf(key[index]);
+              ans += this.alphabet.charAt((strChar + keyChar) % 26);
+              index++;
+          } else {
+              ans += str[i];
+          }
+      }
+      if (!this.isDirect) {
+          return ans.split('').reverse().join('');
+      }
+      return ans;
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  decrypt(str, key) {
+      if (str === undefined || key === undefined) {
+          throw new Error("Incorrect arguments!");
+      }
+
+      let ans = '';
+      str = str.toUpperCase();
+      key = key.toUpperCase();
+
+      while (str.length > key.length) {
+          key = key.repeat(2);
+      }
+
+      let index = 0;
+
+      for (let i = 0; i < str.length; i++) {
+          if (this.alphabet.includes(str[i])) {
+              const strChar = this.alphabet.indexOf(str[i]);
+              const keyChar = this.alphabet.indexOf(key[index]);
+              const decryptChar = (strChar - keyChar) % 26 >= 0 ? (strChar - keyChar) % 26 : 26 + ((strChar - keyChar) % 26);
+              ans += this.alphabet.charAt(decryptChar);
+              index++;
+          } else {
+              ans += str[i];
+          }
+      }
+      if (!this.isDirect) {
+          return ans.split('').reverse().join('');
+      }
+      return ans;
+  }
+
+  constructor(isDirect = true) {
+      this.isDirect = isDirect;
+      this.alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   }
 }
 

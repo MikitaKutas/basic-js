@@ -20,13 +20,13 @@ const chainMaker = {
               return this;
           }
       }
-
+      this.chain = [];
       throw new Error('You can\'t remove incorrect link!');
   },
   reverseChain() {
-      this.chain.reverse();
-      return this;
-  },
+    this.chain.reverse();
+    return this;
+},
   finishChain() {
       let strChain = '';
 
@@ -34,6 +34,7 @@ const chainMaker = {
           strChain += `( ${link} )~~`;
       }
 
+      this.chain = [];
       return strChain.slice(0, -2);
   }
 };
